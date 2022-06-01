@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"api/app/model"
+	"border_patrol/api/app/model"
 	"github.com/gorilla/mux"
-	//"github.com/jinzhu/gorm"
 	"gorm.io/gorm"
 )
 

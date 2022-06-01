@@ -1,18 +1,17 @@
-
-
 package app
 
 import (
-	"fmt"
+	_"fmt"
 	"log"
 	"net/http"
 
-	"api/app/handler"
-	"api/app/model"
-	"api/config"
+	"border_patrol/api/app/handler"
+	"border_patrol/api/app/model"
+	"border_patrol/api/config"
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
-	//"github.com/jinzhu/gorm"
+	"gorm.io/driver/sqlite"
+
 )
 
 // App has router and db instances
@@ -21,15 +20,19 @@ type App struct {
 	DB     *gorm.DB
 }
 
+
+
 // App initialize with predefined configuration
 func (a *App) Initialize(config *config.Config) {
-	dbURI := fmt.Sprintf("%s:%s@/%s?charset=%s&parseTime=True",
-		config.DB.Username,
-		config.DB.Password,
-		config.DB.Name,
-		config.DB.Charset)
+	// dbURI := fmt.Sprintf("%s:%s@/%s?charset=%s&parseTime=True",
+	// 	config.DB.Username,
+	// 	config.DB.Password,
+	// 	config.DB.Name,
+	// 	config.DB.Charset)	
+	//db, err := gorm.Open(config.DB.Dialect, dbURI) 
 
-	db, err := gorm.Open(config.DB.Dialect, dbURI)
+
+	db, err := gorm.Open(sqlite.Open(config.DB.Dialect), &gorm.Config{})	
 	if err != nil {
 		log.Fatal("Could not connect database")
 	}

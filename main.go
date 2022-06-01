@@ -1,10 +1,8 @@
 package main
 
 import (
-	// "api/app"
-	// "api/config"
-	"github.com/api/app"
-	"github.com/api/config"
+	"border_patrol/api/app"
+	"border_patrol/api/config"
 )
 
 func main() {
@@ -12,5 +10,5 @@ func main() {
 
 	app := &app.App{}
 	app.Initialize(config)
-	app.Run(":3000")
+	app.Run(":8888")
 }

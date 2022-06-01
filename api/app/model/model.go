@@ -2,9 +2,10 @@ package model
 
 import (
 	// "github.com/jinzhu/gorm"
-	"gorm.io/gorm"
-	"gorm.io/driver/sqlite"
 	
+	"gorm.io/gorm"
+    //_"gorm.io/driver/mysql"
+	//"gorm.io/driver/sqlite"
 	//_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
