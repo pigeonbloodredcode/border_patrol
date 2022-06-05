@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"encoding/json"
 	"net/http"
 )
@@ -9,6 +10,7 @@ import (
 func respondJSON(w http.ResponseWriter, status int, payload interface{}) {
 	response, err := json.Marshal(payload)
 	if err != nil {
+		log.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return

@@ -2,9 +2,11 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"border_patrol/api/app/model"
+
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
 )
@@ -35,8 +37,8 @@ func CreateVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func GetVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	name := vars["name"]
-	vdo := getVdoError404(db, name, w, r)
+	title := vars["title"]
+	vdo := getVdoError404(db, title, w, r)
 	if vdo == nil {
 		return
 	}
@@ -45,9 +47,10 @@ func GetVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 func UpdateVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	title := vars["title"]
+	log.Println("UpdateVdo",title)
+	vdo := getVdoError404(db, title, w, r)
 
-	name := vars["name"]
-	vdo := getVdoError404(db, name, w, r)
 	if vdo == nil {
 		return
 	}
@@ -68,24 +71,39 @@ func UpdateVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 func DeleteVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	title := vars["title"]
+	log.Println("DeleteVdo",title)
+	vdo := getVdoError404(db, title, w, r)
 
-	name := vars["name"]
-	vdo := getVdoError404(db, name, w, r)
 	if vdo == nil {
 		return
 	}
-	if err := db.Delete(&vdo).Error; err != nil {
+
+	if err := db.Unscoped().Delete(&vdo).Error; err != nil {			
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	log.Println("Delete ", title, "Finish")
+
 	respondJSON(w, http.StatusNoContent, nil)
+	
+	//Soft Delete
+	//db.Where("title = ?", title).Delete(&model.Vdo{}).Error
+
+	//Hard Delete
+	//if err := db.Debug().Unscoped().Where("title = ?", title).Delete(&model.Vdo{}).Error; err != nil {			
+	//db.Debug().Unscoped().Where("title = ?", title).Delete(&model.Vdo{}).Error
+	// if err := db.Delete(&vdo).Error; err != nil {		
+	// 	respondError(w, http.StatusInternalServerError, err.Error())
+	// 	return
+	// }
 }
 
 func DisableVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	name := vars["name"]
-	vdo := getVdoError404(db, name, w, r)
+	title := vars["title"]
+	vdo := getVdoError404(db, title, w, r)
 	if vdo == nil {
 		return
 	}
@@ -100,8 +118,8 @@ func DisableVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func EnableVdo(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	name := vars["name"]
-	vdo := getVdoError404(db, name, w, r)
+	title := vars["title"]
+	vdo := getVdoError404(db, title, w, r)
 	if vdo == nil {
 		return
 	}
