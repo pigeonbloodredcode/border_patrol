@@ -39,7 +39,7 @@ type Role struct {
 type Lesson struct {
 	////LessonID        uint           `gorm:"primaryKey"`
 	gorm.Model
-	Header  string `json:"header"`
+	Header  string `gorm:"unique" json:"header"`
 	Content string `json:"content"`
 
 	Lesson_Question []Lesson_Question `gorm:"foreignKey:LessonID"`

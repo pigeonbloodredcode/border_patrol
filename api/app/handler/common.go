@@ -1,14 +1,16 @@
 package handler
 
 import (
-	"log"
 	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 )
 
 // respondJSON makes the response with payload as json format
 func respondJSON(w http.ResponseWriter, status int, payload interface{}) {
 	response, err := json.Marshal(payload)
+	 fmt.Println("respondJSON", payload)
 	if err != nil {
 		log.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)

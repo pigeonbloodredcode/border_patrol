@@ -70,10 +70,10 @@ func (a *App) setRouters() {
 
 	// Routing for handling the projects Lessons 
 	a.Get("/lessons", a.GetAllLessons)
-	a.Get("/lessons/{lessons}", a.GetLesson)
+	a.Get("/lessons/{header}", a.GetLesson)
 	a.Post("/lessons", a.CreateLesson)
-	a.Put("/lessons/{lessons}", a.UpdateLesson)
-	a.Delete("/lessons/{lessons}", a.DeleteLesson)
+	a.Put("/lessons/{header}", a.UpdateLesson)
+	a.Delete("/lessons/{header}", a.DeleteLesson)
 
 
 
